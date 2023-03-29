@@ -1,4 +1,4 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get , Param} from '@nestjs/common';
 import { AppService } from './app.service';
 
 @Controller()
@@ -7,6 +7,21 @@ export class AppController {
 
   @Get()
   getHello(): string {
-    return this.appService.getHello();
+    return 'Hola Mundo';
+  }
+
+  @Get('nuevo')
+  newEndpoint() {
+    return 'Yo soy nuevo, ah';
+  }
+
+  @Get('/ruta/') //los slash al final son opcionales, en otros frameworks no.
+  hello() {
+    return 'con /sas/';
+  }
+
+  @Get('products/:productId') //los slash al final son opcionales, en otros frameworks no.
+  getProduct(@Param('productId') productId: string) {
+    return `Product ${productId}`;
   }
 }

@@ -1,16 +1,32 @@
-import { Controller, Get, Query, Param } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Query,
+  Param,
+  Post,
+  Body,
+  Put,
+  Delete,
+} from '@nestjs/common';
 
 @Controller('products')
 export class ProductsController {
   @Get('filter') //No dinámico va primero
-  getFilter() {
-    return 'I am filter';
+  filterOne() {
+    return {
+      message: 'I am filter',
+    };
   }
 
   @Get(':productId') //los slash al final son opcionales, en otros frameworks no.
-  getProduct(@Param('productId') productId: string) {
+  getOne(@Param('productId') productId: string) {
     //Recibimos el objeto, sin recorrer params
-    return `Product ${productId}`;
+    return {
+      message: 'Producto: ',
+      body: {
+        Product: productId,
+      },
+    };
   }
 
   @Get()
@@ -19,6 +35,35 @@ export class ProductsController {
     @Query('offset') offset = 0,
     @Query('brand') brand: string,
   ) {
-    return `products: limit => ${limit} offset => ${offset} brand => ${brand}`;
+    return {
+      messege: 'Litado de productos',
+      body: {
+        limit,
+        offset,
+        brand,
+      },
+    };
+  }
+
+  @Post()
+  create(@Body() payload: any) {
+    return {
+      message: 'Acción de crear',
+      payload,
+    };
+  }
+
+  @Put(':id')
+  update(@Param('id') id: number, @Body() payload: any) {
+    return {
+      message: 'Acción de actualizar',
+      id: id,
+      payload,
+    };
+  }
+
+  @Delete(':id')
+  delete(@Param('id') id: number) {
+    return id;
   }
 }

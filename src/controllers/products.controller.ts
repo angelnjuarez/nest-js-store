@@ -7,7 +7,11 @@ import {
   Body,
   Put,
   Delete,
+  HttpStatus,
+  HttpCode,
+  //Res,
 } from '@nestjs/common';
+//import { Response } from 'express';
 
 @Controller('products')
 export class ProductsController {
@@ -18,7 +22,20 @@ export class ProductsController {
     };
   }
 
+  //Funciona con express//
+  // @Get(':productId')
+  // @HttpCode(HttpStatus.ACCEPTED)
+  // getOne(@Res() response: Response, @Param('productId') productId: string) {
+  //   response.status(200).send({
+  //     message: 'Producto: ',
+  //     body: {
+  //       Product: productId,
+  //     },
+  //   });
+  // }
+
   @Get(':productId') //los slash al final son opcionales, en otros frameworks no.
+  @HttpCode(HttpStatus.ACCEPTED) //Código de respuesta
   getOne(@Param('productId') productId: string) {
     //Recibimos el objeto, sin recorrer params
     return {

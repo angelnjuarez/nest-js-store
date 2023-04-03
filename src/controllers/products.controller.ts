@@ -10,9 +10,10 @@ import {
   HttpStatus,
   HttpCode,
   //Res,
+  //ParseIntPipe,
 } from '@nestjs/common';
 //import { Response } from 'express';
-
+import { ParseIntPipe } from '../common/parse-int/parse-int.pipe';
 import { ProductService } from '../services/product.service';
 
 @Controller('products')
@@ -40,9 +41,9 @@ export class ProductsController {
 
   @Get(':productId') //los slash al final son opcionales, en otros frameworks no.
   @HttpCode(HttpStatus.ACCEPTED) //Código de respuesta
-  getOne(@Param('productId') productId: string) {
+  getOne(@Param('productId', ParseIntPipe) productId: number) {
     //Recibimos el objeto, sin recorrer params
-    return this.productService.findOne(+productId); //+ convierte a number
+    return this.productService.findOne(productId); //+ convierte a number
   }
 
   @Get()
@@ -63,17 +64,17 @@ export class ProductsController {
   }
 
   @Put(':id')
-  update(@Param('id') id: string, @Body() payload: any) {
+  update(@Param('id', ParseIntPipe) id: number, @Body() payload: any) {
     // return {
     //   message: 'Acción de actualizar',
     //   id: id,
     //   payload,
     // };
-    return this.productService.update(+id, payload);
+    return this.productService.update(id, payload);
   }
 
   @Delete(':id')
-  delete(@Param('id') id: string) {
-    return this.productService.delete(+id);
+  delete(@Param('id', ParseIntPipe) id: number) {
+    return this.productService.delete(id);
   }
 }
